@@ -1,0 +1,19 @@
+@page "/seenblog/{id:int}"
+@model ASP_Razor_EF.Pages_Blog.DetailsModel
+
+@{
+    ViewData["Title"] = @Model.Article.Title;
+}
+
+<h1> @Model.Article.Title</h1>
+
+<p><i>  @Html.DisplayFor(model => model.Article.Created)</i></p>
+<hr>
+@* <p><i> @Html.DisplayFor(model => model.Article.Content)</i></p> *@
+
+@Html.Raw(Model.Article.Content);
+<hr>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Article?.Id">Edit</a> 
+    <a asp-page="./Index">Back to List</a>
+</div>
