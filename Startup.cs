@@ -87,6 +87,24 @@ namespace ASP_Razor_EF
                 options.LogoutPath ="/logout/";
                 options.AccessDeniedPath = "/khongduoctruycap.html";
             });
+            // đăng ký dịch vụ đăng nhập bằng google
+
+            services.AddAuthentication()
+                    .AddGoogle(options => {
+                        var gconfig = Configuration.GetSection("Authentication:Google");
+                        options.ClientId =gconfig["ClientId"];
+                        options.ClientSecret=gconfig["ClientSecret"];
+                        options.CallbackPath ="/dang-nhap-tu-google";
+                    })
+                    .AddFacebook(options =>{
+                        var fconfig = Configuration.GetSection("Authentication:Facebook");
+                        options.AppId = fconfig["AppId"];
+                        options.AppSecret=fconfig["AppSecret"];
+                        options.CallbackPath ="/dang-nhap-tu-facebook";
+                    });
+                    // .AddTwitter()
+                    // .AddMicrosoftAccount();
+                    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -172,4 +190,6 @@ namespace ASP_Razor_EF
 
     -phát sinh code tùy biến các trang HTML dotnet aspnet-codegenerator identity -dc ASP_Razor_EF.models.MyBlogContext
 
+    -CallbackPath:
+   https://localhost:7191/dang-nhap-tu-google
 */
