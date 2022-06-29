@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ASP_Razor_EF.models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASP_Razor_EF.Pages_Blog
 {
+    [Authorize] // buộc user phải đăng nhập mới dược chuyễn qua các trang khác
     public class IndexModel : PageModel
     {
+        
         private readonly ASP_Razor_EF.models.MyBlogContext _context;
 
         public IndexModel(ASP_Razor_EF.models.MyBlogContext context)
@@ -26,13 +29,17 @@ namespace ASP_Razor_EF.Pages_Blog
 
         public int countPages {set; get;}
 
+        public MyBlogContext Context => Context1;
+
+        public MyBlogContext Context1 => _context;
+
         public async Task OnGetAsync(string SearchString)
         {
-            if (_context.articles != null)
+            if (Context.articles != null)
             {
                 //Article = await _context.articles.ToListAsync();
 
-                int totalArticle = await _context.articles.CountAsync();
+                int totalArticle = await Context.articles.CountAsync();
                 countPages = (int)Math.Ceiling((double)totalArticle / ITEMS_PER_PAGE);
                 if(currentPage < 1)
                 {
@@ -43,7 +50,7 @@ namespace ASP_Razor_EF.Pages_Blog
                     currentPage =countPages;
                 }
                 
-                var qr = (from a in _context.articles
+                var qr = (from a in Context.articles
                          orderby a.Created descending
                          select a)
                          .Skip((currentPage-1)*ITEMS_PER_PAGE).Take(ITEMS_PER_PAGE);

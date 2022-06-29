@@ -75,8 +75,8 @@ namespace ASP_Razor_EF.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Phải nhập {0}")]
+            [EmailAddress(ErrorMessage ="Nhập sai định dang Email!")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -95,9 +95,17 @@ namespace ASP_Razor_EF.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirm password(Lập lại Password)")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.(Password Nhập lại không chính xác)")]
             public string ConfirmPassword { get; set; }
+
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Name User (Tên tài khoãn)")]
+            [Required(ErrorMessage ="Phải nhập {0}")]
+             [StringLength(100, ErrorMessage = "The must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            public string UserName {get; set;}
         }
 
 
@@ -113,16 +121,16 @@ namespace ASP_Razor_EF.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                //var user = CreateUser();
+                var user = new AppUser {UserName = Input.UserName, Email = Input.Email};
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                // await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                // await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    // phát sinh token để xác nhận email
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -132,7 +140,7 @@ namespace ASP_Razor_EF.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email (Xác nhận địa chỉ Email)",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
