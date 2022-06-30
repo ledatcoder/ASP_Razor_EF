@@ -6,6 +6,7 @@ namespace ASP_Razor_EF.models
 {
     public class AppUser : IdentityUser
     {
-        
+        [DataType(DataType.Date)]
+        public DateTime? BirthDate {set; get;}
     }
 }
