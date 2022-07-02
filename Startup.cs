@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Album.Mail;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using App.Service;
 
 namespace ASP_Razor_EF
 {
@@ -104,6 +105,8 @@ namespace ASP_Razor_EF
                     });
                     // .AddTwitter()
                     // .AddMicrosoftAccount();
+
+            services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
                     
         }
 
@@ -192,4 +195,11 @@ namespace ASP_Razor_EF
 
     -CallbackPath:
    https://localhost:7191/dang-nhap-tu-google
+
+
+   - Authorization: xác định danh tính  -> Login, logout...
+    + Role-based authorization - xác thực quyền theo vai trò
+        + Role(vai trò): (Admin, Editor, Manager, Member..)
+        + thử mục Role được tao theo đường dẫn /Areas/Admin/Pages/Role
+        + tạo page: dotnet new page -n Index -o Areas/Admin/Pages/Role -na App.Admin.Role
 */
