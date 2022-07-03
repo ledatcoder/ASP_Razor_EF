@@ -107,6 +107,15 @@ namespace ASP_Razor_EF
                     // .AddMicrosoftAccount();
 
             services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
+
+            services.AddAuthorization(options =>{
+                options.AddPolicy("AllowEditRole",policyBuilder =>{
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.RequireRole("Editor");
+               
+
+                });
+            });
                     
         }
 
@@ -192,7 +201,7 @@ namespace ASP_Razor_EF
         + /Identity/Account/Manage
 
     -phát sinh code tùy biến các trang HTML dotnet aspnet-codegenerator identity -dc ASP_Razor_EF.models.MyBlogContext
-
+    - dotnet new page -n EditUserRoleClaim -o Areas/Admin/Pages/User -na App.Admin.User
     -CallbackPath:
    https://localhost:7191/dang-nhap-tu-google
 
@@ -202,4 +211,7 @@ namespace ASP_Razor_EF
         + Role(vai trò): (Admin, Editor, Manager, Member..)
         + thử mục Role được tao theo đường dẫn /Areas/Admin/Pages/Role
         + tạo page: dotnet new page -n Index -o Areas/Admin/Pages/Role -na App.Admin.Role
+
+    *policy-based authorization
+    *claim-based authorization
 */
