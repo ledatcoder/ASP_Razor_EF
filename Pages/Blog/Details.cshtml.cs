@@ -1,3 +1,4 @@
+using System.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ASP_Razor_EF.models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASP_Razor_EF.Pages_Blog
 {
+    [Authorize(Policy ="InGenZ")]
     public class DetailsModel : PageModel
     {
         private readonly ASP_Razor_EF.models.MyBlogContext _context;

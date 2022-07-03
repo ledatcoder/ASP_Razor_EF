@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Album.Mail;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using App.Service;
+using App.Security.Requirements;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASP_Razor_EF
 {
@@ -67,7 +69,7 @@ namespace ASP_Razor_EF
                 options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
 
                 // Cấu hình Lockout - khóa user
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Khóa 5 phút
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1); // Khóa 5 phút
                 options.Lockout.MaxFailedAccessAttempts = 3; // Thất bại 5 lầ thì khóa
                 options.Lockout.AllowedForNewUsers = true;
 
@@ -112,10 +114,24 @@ namespace ASP_Razor_EF
                 options.AddPolicy("AllowEditRole",policyBuilder =>{
                     policyBuilder.RequireAuthenticatedUser();
                     policyBuilder.RequireRole("Editor");
-               
-
                 });
+                 options.AddPolicy("InGenZ",policyBuilder =>{
+                    policyBuilder.RequireAuthenticatedUser();
+                    //policyBuilder.RequireRole("Editor");
+                    policyBuilder.Requirements.Add(new GenZRequirement());
+                });
+
+                options.AddPolicy("ShowAdminMenu",pb =>{
+                    pb.RequireRole("Admin");
+                });
+
+                options.AddPolicy("CanUpdateArticle",builder =>{
+                    builder.Requirements.Add(new ArticleUpdateRequirement());
+                });
+                
             });
+
+            services.AddTransient<IAuthorizationHandler,AppAuthorizationHandler>();
                     
         }
 
