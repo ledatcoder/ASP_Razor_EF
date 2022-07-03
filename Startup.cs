@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using ASP_Razor_EF.models;
+using App.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Album.Mail;
@@ -19,7 +19,7 @@ using App.Service;
 using App.Security.Requirements;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ASP_Razor_EF
+namespace App
 {
     public class Startup
     {
@@ -41,7 +41,7 @@ namespace ASP_Razor_EF
 
             services.AddRazorPages();
 
-            services.AddDbContext<MyBlogContext>(options =>
+            services.AddDbContext<AppDbContext>(options =>
             {
                 string connectstring = Configuration.GetConnectionString("MyBlogContext");
                 options.UseSqlServer(connectstring);
@@ -50,7 +50,7 @@ namespace ASP_Razor_EF
             // tiến hành đăng ký IdentityUser
 
             services.AddIdentity<AppUser, IdentityRole>()
-                    .AddEntityFrameworkStores<MyBlogContext>()
+                    .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
 
             // services.AddDefaultIdentity<AppUser>()

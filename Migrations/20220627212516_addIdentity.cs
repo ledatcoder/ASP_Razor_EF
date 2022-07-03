@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ASP_Razor_EF.Migrations
+namespace App.Migrations
 {
     public partial class addIdentity : Migration
     {

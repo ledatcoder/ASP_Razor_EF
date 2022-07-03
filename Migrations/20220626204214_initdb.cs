@@ -1,11 +1,11 @@
 ﻿using System;
-using ASP_Razor_EF.models;
+using App.Models;
 using Bogus;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ASP_Razor_EF.Migrations
+namespace App.Migrations
 {
     public partial class initdb : Migration
     {

@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ASP_Razor_EF.models;
+using App.Models;
 
-namespace ASP_Razor_EF.Pages_Blog
+namespace App.Pages_Blog
 {
     public class CreateModel : PageModel
     {
-        private readonly ASP_Razor_EF.models.MyBlogContext _context;
+        private readonly App.Models.AppDbContext _context;
 
-        public CreateModel(ASP_Razor_EF.models.MyBlogContext context)
+        public CreateModel(App.Models.AppDbContext context)
         {
             _context = context;
         }

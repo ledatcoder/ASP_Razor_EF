@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ASP_Razor_EF.models;
+using App.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ASP_Razor_EF.Pages_Blog
+namespace App.Pages_Blog
 {
     [Authorize(Policy ="InGenZ")]
     public class DetailsModel : PageModel
     {
-        private readonly ASP_Razor_EF.models.MyBlogContext _context;
+        private readonly App.Models.AppDbContext _context;
 
-        public DetailsModel(ASP_Razor_EF.models.MyBlogContext context)
+        public DetailsModel(App.Models.AppDbContext context)
         {
             _context = context;
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ASP_Razor_EF.Migrations
+namespace App.Migrations
 {
     public partial class SeedUsers : Migration
     {

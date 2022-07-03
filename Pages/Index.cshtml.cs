@@ -1,17 +1,17 @@
-﻿using ASP_Razor_EF.models;
+﻿using App.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ASP_Razor_EF.Pages
+namespace App.Pages
 {
     public class IndexModel : PageModel
     {
         
         private readonly ILogger<IndexModel> _logger;
 
-        private readonly MyBlogContext myBlogContext;
-        public IndexModel(ILogger<IndexModel> logger, MyBlogContext _myContext)
+        private readonly AppDbContext myBlogContext;
+        public IndexModel(ILogger<IndexModel> logger, AppDbContext _myContext)
         {
             _logger = logger;
             myBlogContext = _myContext;
